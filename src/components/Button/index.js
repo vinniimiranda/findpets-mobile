@@ -3,9 +3,9 @@ import {View} from 'react-native';
 
 import {Container, Text} from './styles';
 
-export default function Button({text}) {
+export default function Button({text, ...rest}) {
   return (
-    <Container>
+    <Container {...rest}>
       <Text>{text}</Text>
     </Container>
   );
