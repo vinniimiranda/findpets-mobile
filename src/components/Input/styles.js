@@ -2,8 +2,9 @@ import styled from 'styled-components/native';
 import {Animated, Dimensions} from 'react-native';
 const windowWidth = Dimensions.get('window').width - 50;
 
-export const Container = styled.KeyboardAvoidingView`
+export const Container = styled.View`
   display: flex;
+  margin-bottom: 0px;
 `;
 
 export const Label = styled(Animated.Text)`

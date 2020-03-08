@@ -6,7 +6,6 @@ const Index = () => {
   return (
     <>
       <StatusBar barStyle="light-content" backgroundColor="#28ACA4" />
-
       <App />
     </>
   );

@@ -1,26 +1,13 @@
 import React, {useState, useEffect, useRef} from 'react';
 import {useField} from '@unform/core';
+import {TextInput, withTheme} from 'react-native-paper';
 
-import {Container, Label, TextInput} from './styles';
-import {Animated, Easing} from 'react-native';
+import {Container} from './styles';
 
-export default function Input({name, label, ...rest}) {
+function Input({name, label, ...rest}) {
   const inputRef = useRef(null);
   const {fieldName, registerField, defaultValue = '', error} = useField(name);
-
-  const [active, setActive] = useState(false);
-  const [value, setValue] = useState(null);
-  const labelPosition = new Animated.Value(25);
-  function onFocusHandler() {
-    if (!value) {
-      setActive(true);
-    }
-  }
-  function onBlurHandler() {
-    if (!value) {
-      setActive(false);
-    }
-  }
+  const [text, setText] = useState('');
 
   useEffect(() => {
     registerField({
@@ -28,7 +15,7 @@ export default function Input({name, label, ...rest}) {
       ref: inputRef.current,
       path: '_lastNativeText',
       getValue(ref) {
-        return ref._lastNativeText || '';
+        return ref._lastNativeText || text;
       },
       setValue(ref, value) {
         ref.setNativeProps({text: value});
@@ -39,50 +26,22 @@ export default function Input({name, label, ...rest}) {
         ref._lastNativeText = '';
       },
     });
-  }, [fieldName, registerField]);
-
-  useEffect(() => {
-    if (active) {
-      Animated.timing(labelPosition, {
-        toValue: 10,
-        duration: 200,
-        easing: Easing.linear,
-      }).start();
-    }
-    if (!active) {
-      Animated.timing(labelPosition, {
-        toValue: 25,
-        duration: 200,
-        easing: Easing.linear,
-      }).start();
-    }
-  }, [active]);
+  }, [fieldName, registerField, text]);
 
   return (
-    <Container behavior="height" keyboardVerticalOffset={100} enabled>
-      <Label
-        style={{
-          top: labelPosition,
-          fontSize: labelPosition.interpolate({
-            inputRange: [10, 25],
-            outputRange: [12, 16],
-          }),
-          color: labelPosition.interpolate({
-            inputRange: [0, 25],
-            outputRange: ['#28aca4', '#999'],
-          }),
-        }}>
-        {label}
-      </Label>
+    <Container>
       <TextInput
-        value={value}
-        onChangeText={setValue}
-        onFocus={onFocusHandler}
-        onBlur={onBlurHandler}
+        label={label}
+        style={{fontWeight: 'bold'}}
+        underlineColor="#28aca4"
+        underlineColorAndroid="#28aca4"
         ref={inputRef}
+        value={text}
+        onChangeText={setText}
         defaultValue={defaultValue}
         {...rest}
       />
     </Container>
   );
 }
+export default withTheme(Input);

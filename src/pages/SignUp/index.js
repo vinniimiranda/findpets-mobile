@@ -10,7 +10,7 @@ export default function SignUp() {
   const formRef = useRef(null);
 
   function handleSubmit(data) {
-    alert(JSON.stringify);
+    alert(JSON.stringify(data));
     // { email: 'test@example.com', password: '123456' }
   }
   const defaultData = {
@@ -23,10 +23,15 @@ export default function SignUp() {
       <Container>
         <Logo />
         <DataArea>
-          <Form ref={formRef} onSubmit={handleSubmit} initialData={defaultData}>
-            <Input label="Nome" name="name" type="text" />
-            <Input label="E-mail" name="email" type="email" />
-            <Input label="Senha" name="password" />
+          <Form ref={formRef} onSubmit={handleSubmit}>
+            <Input label="NOME" name="name" type="text" />
+            <Input
+              label="E-MAIL"
+              name="email"
+              type="email"
+              keyboardType="email-address"
+            />
+            <Input label="SENHA" name="password" secureTextEntry={true} />
           </Form>
         </DataArea>
         <Button text="Proximo" onPress={() => formRef.current.submitForm()} />
